@@ -1,0 +1,11 @@
+{
+  "name": "fileorganizer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "organizer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Pansardis",
+  "license": "ISC"
+}
