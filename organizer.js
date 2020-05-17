@@ -1,26 +1,42 @@
 const fs = require('fs')
+const fancyTimeFormat = require('fancyTimeFormat')
 
-const pathOrigem = 'd:/test_organizer/origem'
-const pathDestiny = 'd:/test_organizer/destiny'
+const pathOrigem = 'd:/BKP_Celular'
+const pathDestiny = 'd:/Pâmela'
 
 fs.readdir(pathOrigem, (err, files) => {
-    files.forEach(file => {
-        let folder = file.substring(4, 12)
+    if (files != null && files.length > 0) {
+        let log = ""
 
-        if (fs.existsSync(`${pathDestiny}/${folder}`)) {
-            console.log(`The folder ${folder} exists`);
-        } else {
-            console.log(`The folder ${folder} not exists`);
-            fs.mkdir(`${pathDestiny}/${folder}`, { recursive: true }, (err) => {
-                if (err) throw err;
-            })
-        }
+        const startTime = new Date()
 
-        if (fs.existsSync(`${pathDestiny}/${folder}/${file}`)) {
-            console.log(`The file ${file} already exists`)
-        } else {
-            console.log(`Coping the file ${file}`)
-            fs.copyFileSync(`${pathOrigem}/${file}`, `${pathDestiny}/${folder}/${file}`)
-        }
-    })
+        console.log('Start the process. \n')
+
+        files.forEach(file => {
+            let folder = file.substring(2, 10)
+    
+            if (fs.existsSync(`${pathDestiny}/${folder}`)) {
+                log = log.concat(`The folder ${folder} exists \n`);
+            } else {
+                log = log.concat(`The folder ${folder} not exists \n`);
+                fs.mkdir(`${pathDestiny}/${folder}`, { recursive: true }, (err) => {
+                    if (err) throw err;
+                })
+            }
+    
+            if (fs.existsSync(`${pathDestiny}/${folder}/${file}`)) {
+                log = log.concat(`The file ${file} already exists \n`)
+            } else {
+                log = log.concat(`Coping the file ${file} \n`)
+                fs.copyFileSync(`${pathOrigem}/${file}`, `${pathDestiny}/${folder}/${file}`)
+            }
+        })
+
+        const endTime = new Date()
+        const timeLapsed = (endTime - startTime) / 1000
+
+        console.log(`End process, time leapsed ${fancyTimeFormat(timeLapsed)}.`)
+    }
 })
+
+
