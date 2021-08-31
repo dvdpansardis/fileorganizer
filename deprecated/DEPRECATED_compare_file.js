@@ -1,8 +1,8 @@
 const fs = require('fs')
-const fancyTimeFormat = require('./fancyTimeFormat.js')
+const fancyTimeFormat = require('./fancyTimeFormat.js.js')
 
-const pathOrigem = 'd:/BKP_Celular'
-const pathDestiny = 'd:/Pâmela'
+const pathOrigem = 'd:/organizar'
+const pathDestiny = 'd:/organizado'
 
 const filesOrigem = fs.readdirSync(pathOrigem)
 

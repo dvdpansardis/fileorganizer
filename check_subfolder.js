@@ -1,7 +1,7 @@
 const fs = require('fs')
 const fancyTimeFormat = require('./fancyTimeFormat.js')
 
-const pathOrigem = 'd:/Pâmela'
+const pathOrigem = 'd:/GDriver/Fotos/2020'
 
 const foldersOrigem = fs.readdirSync(pathOrigem)
 
@@ -14,7 +14,7 @@ let stop = false
 
 foldersOrigem.forEach(folder => {
 
-    if(folder != 'desktop.ini') {
+    if(folder != 'desktop.ini' && folder != 'Ultrasons') {
         const filesOrigem = fs.readdirSync(`${pathOrigem}/${folder}`)
         
         filesOrigem.forEach(file => {
