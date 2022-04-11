@@ -3,13 +3,13 @@ import OrganizerUtils from './utils/organizer_utils.js'
 
 class CompareFolder {
 
-    constructor(pathOrigin, pathDestiny) {
-        this.pathOrigin = pathOrigin
-        this.pathDestiny = pathDestiny
+    constructor(pathOriginToRemove, pathHasFiles) {
+        this.pathOriginToRemove = pathOriginToRemove
+        this.pathHasFiles = pathHasFiles
         this.destinyFiles = new Set()
         this.logger = new Logger()
         this.organizerUtils = new OrganizerUtils()
-        this.notFoundFolders = new Set()
+        this.foundFolders = new Set()
     }
 
     compare() {
@@ -17,18 +17,18 @@ class CompareFolder {
 
         this.hasProblem = false
         
-        this.loadDestinyFiles(this.pathDestiny)
+        this.loadDestinyFiles(this.pathHasFiles)
 
-        this.compareRecursive(this.pathOrigin)
+        this.compareRecursive(this.pathOriginToRemove)
 
         if(this.hasProblem) {
             console.log(`\n *** HAS PROBLEM, SEE THE LOG *** \n`)
         }
 
-        if (this.notFoundFolders.size > 0) {
-            console.log(`\n Folders not found \n`)
-            this.logger.logInfo(`\n Folders not found \n`)
-            this.notFoundFolders.forEach(f => {
+        if (this.foundFolders.size > 0) {
+            console.log(`\n Folders found \n`)
+            this.logger.logInfo(`\n Folders found \n`)
+            this.foundFolders.forEach(f => {
                 this.logger.logInfo(f)
                 console.log(f)
             });
@@ -57,14 +57,15 @@ class CompareFolder {
             if(this.organizerUtils.isDirectory(pathItemOrigin)) {
                 this.compareRecursive(pathItemOrigin)
             } else {
-                if (!this.destinyFiles.has(item)) {
+                if (this.destinyFiles.has(item)) {
                     this.hasProblem = true
-                    this.logger.logInfo(`\n Item ${pathItemOrigin} not found \n`)
-                    this.notFoundFolders.add(folder)
+                    this.logger.logInfo(`\n Item ${pathItemOrigin} found \n`)
+                    this.organizerUtils.removeFile(pathItemOrigin)
+                    this.foundFolders.add(folder)
                 }
             }
         })
-    }   
+    }
 }
 
-new CompareFolder('D:/Downloads/danielacunhafotografia-19ac35.zip', 'E:/GoogleDrive').compare()
+new CompareFolder('D:/Distribuir', 'D:/teste/NotFound1').compare()

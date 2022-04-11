@@ -33,6 +33,7 @@ class Organizer {
                     let folder = this.extractFolder(pathItemOrigin)
                   
                     this.createFolderOnDestiny(folder.parentYearFolder)
+                    this.createFolderOnDestiny(folder.parentCompleteFolder)
                     this.createFolderOnDestiny(folder.path)
             
                     if (this.existsFileOnDestiny(folder.path, item)) {
@@ -57,8 +58,10 @@ class Organizer {
         let folder = this.extractFolderNameFromFile(file)
         return {
             parentYearFolder: folder.substring(0, 4), 
+            parentMonthFolder: folder.substring(4, 6), 
+            parentCompleteFolder: `${folder.substring(0, 4)}/${folder.substring(4, 6)}`,
             childrenDateFolder: folder,
-            path: `${folder.substring(0, 4)}/${folder}`
+            path: `${folder.substring(0, 4)}/${folder.substring(4, 6)}/${folder}`
         }
     }
 
@@ -103,22 +106,6 @@ class Organizer {
     existsFolderOnDestiny(folder) {
         return this.destinyFolders.has(folder)
     }
-
-    // DEPRECATED
-    /*
-    existsFileOnDestiny(subFolder, file) {
-        return this.organizeUtils.existsFile(`${this.pathDestiny}/${subFolder}/${file}`)
-    }
-
-    existsFolderOnDestiny(folder) {
-        return this.organizeUtils.existsFolder(`${this.pathDestiny}/${folder}`)
-    }
-    */
 }
 
-new Organizer('F:/DistribuirSeparadosPorExt/JPG', 'F:/DistribuirOrganizado').organize()
-// new Organizer('E:/FOTOS/LehBkpNoteDvdSeparadosOrganizados', 'D:/LehBkpNoteDvdSeparadosOrganizados2').organize()
-//new Organizer('D:/test', 'D:/test2').organize()
-
-
-
+new Organizer('D:/CameraDavid20220410/SnapchatSeparado', 'D:/CameraDavid20220410/Snapchat').organize()

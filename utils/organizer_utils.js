@@ -1,4 +1,4 @@
-import { readdirSync, existsSync, lstatSync, statSync, mkdirSync, copyFileSync, readFileSync, rename } from 'fs'
+import { unlinkSync, readdirSync, existsSync, lstatSync, statSync, mkdirSync, copyFileSync, readFileSync, rename } from 'fs'
 import moment from 'moment'
 import { basename, extname } from 'path'
 import exif from 'exif-parser'
@@ -191,4 +191,7 @@ export default class OrganizerUtils {
         })
     }
 
+    removeFile(file) {
+        unlinkSync(file);
+    }
 }

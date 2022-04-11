@@ -3,9 +3,10 @@ import OrganizerUtils from './utils/organizer_utils.js'
 
 class CompareFolder {
 
-    constructor(pathOrigin, pathDestiny) {
+    constructor(pathOrigin, pathDestiny, pathFolderNotFound) {
         this.pathOrigin = pathOrigin
         this.pathDestiny = pathDestiny
+        this.pathFolderNotFound = pathFolderNotFound
         this.destinyFiles = new Set()
         this.logger = new Logger()
         this.organizerUtils = new OrganizerUtils()
@@ -60,11 +61,16 @@ class CompareFolder {
                 if (!this.destinyFiles.has(item)) {
                     this.hasProblem = true
                     this.logger.logInfo(`\n Item ${pathItemOrigin} not found \n`)
+                    let fileNameNotFound = `${this.pathFolderNotFound}/${item}`
+                    if (this.organizerUtils.existsFile(fileNameNotFound)) {
+                        fileNameNotFound = `${this.pathFolderNotFound}/${Math.random()}_${item}`
+                    }                     
+                    this.organizerUtils.copyFile(pathItemOrigin, fileNameNotFound)
                     this.notFoundFolders.add(folder)
                 }
             }
         })
-    }   
+    }
 }
 
-new CompareFolder('D:/Downloads/danielacunhafotografia-19ac35.zip', 'E:/GoogleDrive').compare()
+new CompareFolder('D:/Distribuir', 'E:/GoogleDrive',  'D:/teste/NotFound').compare()
